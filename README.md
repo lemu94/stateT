@@ -1,27 +1,75 @@
-# StateT
+# StateTService - Gestion d'état générique pour Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.5.
+`StateTService` est un service générique conçu pour gérer les états de composants dans une application Angular. Il permet de stocker, accéder et manipuler des états de manière typée, flexible et modulaire.
 
-## Development server
+## Caractéristiques
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- **Gestion générique d'état** : Permet de stocker et accéder aux états de différents composants.
+- **Typage fort** : Utilise des types génériques (`T`, `H`) pour s'assurer que les états sont manipulés correctement.
+- **Vérification des types dynamiques** : Permet de filtrer ou transformer les états récupérés en vérifiant leur type.
+- **Modulaire et injectable** : Peut être injecté dans n'importe quel composant ou service Angular.
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Clonez le projet :
+    ```bash
+    git clone <URL_DU_PROJET>
+    ```
 
-## Build
+2. Installez les dépendances du projet :
+    ```bash
+    npm install
+    ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. Ajoutez le service dans votre module Angular :
+    ```typescript
+    import { NgModule } from '@angular/core';
+    import { BrowserModule } from '@angular/platform-browser';
+    import { AppComponent } from './app.component';
+    import { StateTService } from './path-to-service/state-t.service';
 
-## Running unit tests
+    @NgModule({
+      declarations: [AppComponent],
+      imports: [BrowserModule],
+      providers: [StateTService],
+      bootstrap: [AppComponent]
+    })
+    export class AppModule { }
+    ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Utilisation
 
-## Running end-to-end tests
+### 1. Importation du service
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Commencez par importer et injecter le `StateTService` dans votre composant Angular :
 
-## Further help
+```typescript
+import { Component } from '@angular/core';
+import { StateTService } from './path-to-service/state-t.service';
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+interface Person {
+  name: string;
+  age: number;
+}
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'State Management Example';
+  
+  constructor(private stateService: StateTService<Person>) {}
+
+  ngOnInit() {
+    const person: Person = { name: 'John', age: 30 };
+    
+    // Stocker un état
+    this.stateService.setState('person1', person);
+
+    // Récupérer un état
+    const storedPerson = this.stateService.getState('person1');
+    console.log(storedPerson); // { name: 'John', age: 30 }
+  }
+}

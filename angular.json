@@ -3,5 +3,41 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "stateT": {
+      "projectType": "library",
+      "root": "projects/state-t",
+      "sourceRoot": "projects/state-t/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/state-t/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/state-t/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/state-t/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/state-t/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "fc161190-0c48-4146-9ca4-07c9502c4e83"
   }
 }
